@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+    // Login Routes Start
+
+    Route::get('/', function () {
+        return view('login/index');
+    });
+
+    // login Routes End
+
+    Route::middleware(['auth'])->group(function () {
+
+    });
+
+
