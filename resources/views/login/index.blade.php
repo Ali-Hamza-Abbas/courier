@@ -8,11 +8,12 @@
 
         <!-- Icon -->
         <div class="fadeIn first">
-            <img src="" id="icon" alt="User Icon" />
+            <img src="{{asset('images/logo.png')}}" id="icon" style="border-radius: 14%;" alt="Company Logo" />
         </div>
 
         <!-- Login Form -->
         <form>
+            @csrf
             <input type="email" id="Email" class="fadeIn second" name="Email" placeholder="Email">
             <input type="text" id="password" class="fadeIn third" name="login" placeholder="password">
             <input type="button" class="fadeIn fourth" value="Log In">
