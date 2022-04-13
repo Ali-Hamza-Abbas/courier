@@ -6,14 +6,8 @@ function ajax(url, method, data, success) {
         url: url,
         type: method,
         data: data,
-        beforeSend: function() {
-            $('.overlay').removeClass('d-none').addClass('d-block');
-        },
-        complete: function(){
-            $('.overlay').removeClass('d-block').addClass('d-none');
-        },
         success: function(data) {
-            success(data);
+            toastr.success(data);
         },
         error: function(xhr, status, err) {
             switch (xhr.status) {
