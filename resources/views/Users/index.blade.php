@@ -35,11 +35,11 @@
             <td> {{ $user->name }} </td>
             <td> {{ $user->email }} </td>
             <td> {{ $user->password }} </td>
-            <td> {{ $user->type }} </td>
+            <td> @if($user->admin === 1) {{"Admin"}} @else {{"User"}} @endif </td>
             <td>
-                <form action="{{ route('users.destroy',$student->id) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('users.show', $student->id) }}">Show</a>
-                    <a class="btn btn-primary" href="{{ route('users.edit', $student->id) }}" >Edit</a>
+                <form action="{{ route('users.destroy',$user->id) }}" method="POST">
+                    <a class="btn btn-info" href="{{ route('users.show', $user->id) }}">Show</a>
+                    <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}" >Edit</a>
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>

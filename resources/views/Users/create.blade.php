@@ -53,7 +53,7 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                     <strong>Select type</strong>
-                    <select class="form-control" name="type">
+                    <select class="form-control" name="admin">
                         <option selected="selected" disabled="disabled"> Please select any one </option>
                         <option value="1" >Admin</option>
                         <option value="0" >User</option>

@@ -1,4 +1,4 @@
-@extends('students.layout')
+@extends('../layout')
 
 @section('content')
     <div class="row">
@@ -32,31 +32,25 @@
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                     <strong>User Name</strong>
-                    <input type="text" name="name" class="form-control" placeholder="User Name ...">
+                    <input type="text" name="name" value="{{$User->name}}" class="form-control" placeholder="User Name ...">
                 </div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                     <strong>Email</strong>
-                    <input type="email" name="email" class="form-control" placeholder="Email ...">
+                    <input type="email" name="email" value="{{$User->email}}" class="form-control" placeholder="Email ...">
                 </div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                     <strong>Password</strong>
-                    <input type="password" name="password" class="form-control" placeholder="Password ...">
-                </div>
-            </div>
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <div class="form-group">
-                    <strong>Confirm Password</strong>
-                    <input type="password" name="Confirm_password" class="form-control" placeholder="Confirm Password ...">
+                    <input type="password" name="password" value="{{$User->password}}" class="form-control" placeholder="Password ..." disabled>
                 </div>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="form-group">
                     <strong>Select type</strong>
-                    <select class="form-control" name="type">
+                    <select class="form-control" name="admin" value="{{$User->admin}}">
                         <option selected="selected" disabled="disabled"> Please select any one </option>
                         <option value="1">Admin</option>
                         <option value="0">User</option>
@@ -71,45 +65,4 @@
         </div>
     </form>
 
-@endsection
-
-@section('scripts')
-    <script>
-        $(function() {
-            var url = "{{ route('users.get', $user_id) }}";
-            var data = {};
-            ajax(
-                url,
-                "GET",
-                data,
-                function (data) {
-                    document.getElementById('user').value = data.User.id;
-                    document.getElementById('name').value = data.User.name;
-                    document.getElementById('email').value = data.User.email;
-                    document.getElementById('password').value = data.User.password;
-                    document.getElementById('type').value = data.User.type;
-                }
-            );
-        });
-
-        $("#btn_edit").click(function() {
-            var url = "{{ route('users.update', $user_id) }}";
-            var data = {
-                user_id: $("#user_id").val(),
-                name : $("#name").val(),
-                course : $("#email").val(),
-                password : $("#password").val(),
-                Confirm_password : $("#Confirm_password").val(),
-                type : $("#type").val()
-            };
-            ajax(
-                url,
-                "PUT",
-                data,
-                function (data) {
-                    console.log(data);
-                }
-            );
-        });
-    </script>
 @endsection

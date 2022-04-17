@@ -37,12 +37,12 @@ class UserController extends Controller
             'email' => 'required|unique:users|email',
             'password' => 'min:8|required_with:Confirm_password|same:Confirm_password',
             'Confirm_password' => 'required',
-            'type' => 'required',
+            'admin' => 'required',
         ]);
 
         User::create($request->all());
 
-        return redirect()->route('Users.index')
+        return redirect()->route('users.index')
             ->with('success','User created Successfully.');
     }
 
@@ -68,7 +68,8 @@ class UserController extends Controller
     public function edit($id)
     {
         $User = User::find($id);
-        return $User;
+        return view('Users.edit',compact('User'))
+            ->with('User' , $User);
     }
 
     /**
@@ -85,11 +86,11 @@ class UserController extends Controller
             'email' => 'required|unique:users|email',
             'password' => 'min:8|required_with:Confirm_password|same:Confirm_password',
             'Confirm_password' => 'required',
-            'type' => 'required',
+            'admin' => 'required',
         ]);
 
         if($user->update($request->all())){
-            return redirect()->route('Users.index')
+            return redirect()->route('users.index')
                 ->with('success','User Update Successfully');
         }
     }
@@ -104,16 +105,12 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('Users.index')
+        return redirect()->route('users.index')
             ->with('success','User Deleted Successfully');
     }
 
     public function get($id) {
         $User = User::find($id);
-        if ($User) {
-            return response()->json(['user' => $User], 200);
-        } else {
-            return response()->json(['error' => 'Record not found'], 404);
-        }
+        return $User;
     }
 }
