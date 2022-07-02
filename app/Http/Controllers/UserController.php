@@ -113,4 +113,12 @@ class UserController extends Controller
         $User = User::find($id);
         return $User;
     }
+
+    public function profile(){
+        return view('Users.profile');
+    }
+
+    public function profile_update(Request $request){
+
+    }
 }
