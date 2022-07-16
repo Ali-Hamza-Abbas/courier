@@ -32,6 +32,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
         Route::get('users/{id}', [UserController::class, 'get'])->name('users.get');
 
         Route::get('/profile',[UserController::class,'profile'])->name('profile');
+        Route::post('/profile-update',[UserController::class,'profile_update'])->name('profile-update');
 
         Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard.index');
     });

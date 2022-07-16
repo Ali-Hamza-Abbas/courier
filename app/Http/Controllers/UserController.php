@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -115,10 +116,11 @@ class UserController extends Controller
     }
 
     public function profile(){
-        return view('Users.profile');
+        $user = User::where('id',Auth::user()->id)->first();
+        return view('Users.profile')->with('user',$user);
     }
 
     public function profile_update(Request $request){
-
+        dd($request->all());
     }
 }

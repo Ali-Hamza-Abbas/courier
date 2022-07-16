@@ -54,7 +54,7 @@
                     <ul class="navbar-nav float-right">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="" alt="" >{{ Auth::user()->name }}
+                                <img src="" alt="" >{{ Auth::user()->firstName . Auth::user()->lastName }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ url('/profile') }}">Profile</a>
