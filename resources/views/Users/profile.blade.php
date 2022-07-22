@@ -18,20 +18,20 @@
 
     <div>
         <div class="row">
-            <div class="col-sm-12 text-center"><h1>{{$user['firstName'].$user['lastName']}}</h1></div>
+            <div class="col-sm-12 text-center"><h1>{{$user['firstName']." ".$user['lastName']}}</h1></div>
         </div>
         <div class="row">
             <div class="col-sm-3">
                 <div class="text-center">
-                    <form id="image-upload">
+                    @if (Auth::user()->avatar)
+                        <img src="{{ asset('/storage/images/UserProfile')."/".Auth::user()->avatar }}" class="avatar img-circle img-thumbnail" alt="avatar">
+                    @else
+                        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+                    @endif
+                    <h6>Upload a different photo...</h6>
+                    <form id="image-upload" enctype="multipart/form-data">
                         @csrf
-                        @if (Auth::user()->avatar)
-                            <img src="" class="avatar img-circle img-thumbnail" alt="avatar">
-                        @else
-                            <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
-                        @endif
-                        <h6>Upload a different photo...</h6>
-                        <input type="file" name="image" class="text-center center-block file-upload">
+                        <input type="file" id="photo" name="photo" class="text-center center-block file-upload" accept="image/png, image/gif, image/jpeg">
                         <button type="submit" class="btn btn-primary">Upload</button>
                     </form>
                 </div><hr>
@@ -183,21 +183,55 @@
 
                 var data = $("#user_profile").serialize();
                 $.ajax({
-                type: 'POST',
-                url: "{{ url('/') }}/profile-update",
-                data: data,
-                success: function (response) {
-                    if(response.error){
+                    type: 'POST',
+                    url: "{{ url('/') }}/profile-update",
+                    data: data,
+                    success: function (response) {
+                        response = JSON.parse(response);
+                        if(response.error){
+                            toastr.error(response.error);
+                        } else if(response.success){
+                            toastr.success(response.success);
+                        }
+                    },
+                    error: function () {
                         toastr.error(response.error);
-                    } else if(response.success){
-                        toastr.success(response.success);
                     }
-                },
-                error: function () {
-                    toastr.error(response.error);
+                });
+            });
+
+            $('#image-upload').on('submit',function(e){
+                e.preventDefault();
+
+                var ele = document.getElementById("photo");
+                var photo = ele.value;
+
+                if(!photo){
+                    toastr.error("Choose an image first");
+                    ele.focus();
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ url('/') }}/image-update",
+                        type: "POST",
+                        data:  new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData:false,
+                        success: function (response) {
+                            response = JSON.parse(response);
+                            if(response.error){
+                                toastr.error(response.error);
+                            } else if(response.success){
+                                toastr.success(response.success);
+                            }
+                        },
+                        error: function () {
+                            toastr.error(response.error);
+                        }
+                    });
                 }
             });
-            })
         });
     </script>
 @endsection

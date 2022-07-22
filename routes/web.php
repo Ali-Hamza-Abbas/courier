@@ -33,6 +33,7 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
         Route::get('/profile',[UserController::class,'profile'])->name('profile');
         Route::post('/profile-update',[UserController::class,'profile_update'])->name('profile-update');
+        Route::post('/image-update',[UserController::class,'image_update'])->name('image-update');
 
         Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard.index');
     });

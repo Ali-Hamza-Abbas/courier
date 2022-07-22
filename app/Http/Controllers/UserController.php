@@ -5,6 +5,7 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -120,7 +121,58 @@ class UserController extends Controller
         return view('Users.profile')->with('user',$user);
     }
 
-    public function profile_update(Request $request){
-        dd($request->all());
+    public function profile_update(Request $request) {
+        $response = "";
+
+        $user_update = DB::table('users')
+            ->where('id', Auth::user()->id)
+            ->limit(1)
+            ->update(array(
+                'firstName' => $request->first_name ? $request->first_name : "",
+                'lastName' => $request->last_name ? $request->last_name : "",
+                'phoneNo' => $request->phone ? $request->phone : "",
+                'address' => $request->address ? $request->address : "",
+        ));
+
+        if($user_update){
+            $response = ["success" => "profile updated Successfully"];
+        } else {
+            $response = ["success" => "profile not updated Successfully"];
+        }
+
+        return json_encode($response);
+    }
+
+    public function image_update(Request $request){
+        $response = "";
+        if($request->hasFile('photo')) {
+            $destination_path = "public/images/UserProfile";
+            $photo = $request->file('photo');
+            $photo_name = Auth::user()->id;
+            $path = $request->file('photo')->storeAs($destination_path,$photo_name);
+            if ($path) {
+                $avtarUpdate = DB::table('users')
+                    ->where('id', Auth::user()->id)
+                    ->limit(1)
+                    ->update(array('avatar' => NULL));
+
+                $avtarUpdate = DB::table('users')
+                    ->where('id', Auth::user()->id)
+                    ->limit(1)
+                    ->update(array('avatar' => $photo_name));
+
+                if($avtarUpdate){
+                    $response = ["success" => "File uploaded Successfully"];
+                } else {
+                    $response = ["error" => "File not uploaded Successfully"];
+                }
+            } else {
+                $response = ["error" => "File not uploaded Successfully In Storage"];
+            }
+        } else {
+            $response = ["error" => "File Not present"];
+        }
+
+        return json_encode($response);
     }
 }
